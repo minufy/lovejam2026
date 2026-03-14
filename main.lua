@@ -7,6 +7,7 @@ require("stuff.input")
 require("stuff.res")
 require("stuff.sm")
 require("stuff.utils")
+require("stuff.shaders")
 
 function love.load()
     LogFont = love.graphics.newFont(20)

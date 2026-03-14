@@ -79,11 +79,13 @@ function Game:reset()
 end
 
 function Game:draw()
-    love.graphics.setColor(rgb(49, 77, 121))
+    love.graphics.setColor(rgb(138, 167, 221))
     love.graphics.rectangle("fill", 0, 0, Res.w, Res.h)
     ResetColor()
 
-    love.graphics.setColor(1, 1, 1, 0.5)
+    Shaders:start()
+    
+    love.graphics.setColor(1, 1, 1, 0.7)
     local s1 = "score"
     love.graphics.setFont(Font)
     love.graphics.print(s1, Res.w/2-Font:getWidth(s1)/2+Camera.shake_x, Res.h/2-45-(self.score_scale-1)*10+Camera.shake_y)
@@ -107,10 +109,12 @@ function Game:draw()
     end
     
     Camera:stop()
-
+    
     if Edit.editing then
         Edit:draw_hud()
     end
+
+    Shaders:stop()
 end
 
 return Game

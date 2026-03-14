@@ -32,6 +32,7 @@ end
 
 function Res:after()
     love.graphics.setCanvas()
+    
     love.graphics.draw(self.canvas, self.shift.x, self.shift.y, 0, self.zoom, self.zoom)
 
     love.graphics.push()

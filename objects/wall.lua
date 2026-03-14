@@ -1,19 +1,19 @@
 local Wall = Class()
 
-local speed = 1.5
-
 function Wall:init(x, y, direction)
     self.group_name = "wall"
-
+    
     self.x = x
     self.y = y
-    self.w = TILE_SIZE
+    self.w = TILE_SIZE*0.75
     self.h = TILE_SIZE*3
-
+    
+    self.x = self.x+TILE_SIZE/2-self.w/2
     if direction == 1 then
         self.y = self.y-self.h
     end
-    self.vy = speed*direction
+    self.speed = math.random(10, 20)/10
+    self.vy = self.speed*direction
 end
 
 function Wall:update(dt)
