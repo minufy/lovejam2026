@@ -4,6 +4,7 @@ Edit = require("scenes.game.edit")
 Level = require("scenes.game.level")
 
 local Wall = require("objects.wall")
+local Spike = require("objects.spike")
 
 local directions = {-1, 1}
 
@@ -24,6 +25,11 @@ function Game:init()
     self:reset()
     self.wall_spawner = {
         time = 30,
+        timer = 0,
+        queue = {}
+    }
+    self.spike_spawner = {
+        time = 70,
         timer = 0,
         queue = {}
     }
@@ -64,6 +70,18 @@ function Game:update(dt)
         local direction = directions[math.random(1, 2)]
         self:add(Wall, table.remove(self.wall_spawner.queue, math.random(1, #self.wall_spawner.queue))*TILE_SIZE, Res.h*(1-direction)/2, direction)
     end
+
+    self.spike_spawner.timer = self.spike_spawner.timer+dt
+    if self.spike_spawner.timer > self.spike_spawner.time then
+        self.spike_spawner.timer = 0
+        if #self.spike_spawner.queue == 0 then
+            for i = 0, Res.w/TILE_SIZE do
+                table.insert(self.spike_spawner.queue, i)
+            end
+        end
+        local direction = directions[math.random(1, 2)]
+        self:add(Spike, table.remove(self.spike_spawner.queue, math.random(1, #self.spike_spawner.queue))*TILE_SIZE, Res.h*(1-direction)/2, direction)
+    end
 end
 
 function Game:add_score()
@@ -77,6 +95,13 @@ function Game:reset()
     self.score_scale = 1
     Game.dead = false
 end
+
+local draw_order = {
+    "particle",
+    "wall",
+    "spike",
+    "player",
+}
 
 function Game:draw()
     love.graphics.setColor(rgb(138, 167, 221))
@@ -95,11 +120,13 @@ function Game:draw()
     ResetColor()
     
     Camera:start()
-
-    for group_name, group in pairs(self.objects) do
-        for _, object in ipairs(group) do
-            if object.draw then
-                object:draw()
+    
+    for i, group_name in ipairs(draw_order) do
+        if self.objects[group_name] ~= nil then
+            for _, object in ipairs(self.objects[group_name]) do
+                if object.draw then
+                    object:draw()
+                end
             end
         end
     end

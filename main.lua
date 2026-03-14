@@ -24,6 +24,8 @@ function love.load()
     Res:init()
     
     SM:load("game.game")
+
+    math.randomseed(love.timer.getTime())
 end
 
 function love.update(dt)
