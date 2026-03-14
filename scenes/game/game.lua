@@ -63,7 +63,7 @@ function Game:update(dt)
     if self.wall_spawner.timer > self.wall_spawner.time then
         self.wall_spawner.timer = 0
         if #self.wall_spawner.queue == 0 then
-            for i = 2, Res.w/TILE_SIZE-2 do
+            for i = 2, Res.w/TILE_SIZE-3 do
                 table.insert(self.wall_spawner.queue, i)
             end
         end
@@ -75,7 +75,7 @@ function Game:update(dt)
     if self.spike_spawner.timer > self.spike_spawner.time then
         self.spike_spawner.timer = 0
         if #self.spike_spawner.queue == 0 then
-            for i = 0, Res.w/TILE_SIZE do
+            for i = 0, Res.w/TILE_SIZE-1 do
                 table.insert(self.spike_spawner.queue, i)
             end
         end
@@ -105,7 +105,7 @@ local draw_order = {
 }
 
 function Game:draw()
-    love.graphics.setColor(rgb(164, 183, 219))
+    love.graphics.setColor(rgb(132, 155, 199))
     love.graphics.rectangle("fill", 0, 0, Res.w, Res.h)
     ResetColor()
 
