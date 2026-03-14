@@ -13,7 +13,7 @@ function Spike:init(x, y, direction)
     if direction == 1 then
         self.y = self.y-self.h
     end
-    self.speed = math.random(6, 18)/10
+    self.speed = math.random(6, 14)/10
     self.vy = self.speed*direction
 end
 
