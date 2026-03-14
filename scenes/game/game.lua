@@ -24,7 +24,7 @@ function Game:init()
     Level:init()
     self:reset()
     self.wall_spawner = {
-        time = 30,
+        time = 40,
         timer = 0,
         queue = {}
     }
@@ -59,11 +59,11 @@ function Game:update(dt)
         self:reset()
     end
 
-    self.wall_spawner.timer = self.wall_spawner.timer+dt
+    self.wall_spawner.timer = self.wall_spawner.timer+dt 
     if self.wall_spawner.timer > self.wall_spawner.time then
         self.wall_spawner.timer = 0
         if #self.wall_spawner.queue == 0 then
-            for i = 0, Res.w/TILE_SIZE do
+            for i = 2, Res.w/TILE_SIZE-2 do
                 table.insert(self.wall_spawner.queue, i)
             end
         end
@@ -97,6 +97,7 @@ function Game:reset()
 end
 
 local draw_order = {
+    "tiles",
     "particle",
     "wall",
     "spike",
@@ -104,7 +105,7 @@ local draw_order = {
 }
 
 function Game:draw()
-    love.graphics.setColor(rgb(138, 167, 221))
+    love.graphics.setColor(rgb(164, 183, 219))
     love.graphics.rectangle("fill", 0, 0, Res.w, Res.h)
     ResetColor()
 

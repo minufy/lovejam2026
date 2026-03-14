@@ -40,7 +40,7 @@ function Wall:flip(vy)
 end
 
 function Wall:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, 2, 2)
 end
 
 return Wall
