@@ -19,8 +19,10 @@ function Tiles:around(x, y)
 end
 
 function Tiles:draw()
-    for _, tile in pairs(self.tiles) do
-        love.graphics.draw(TILE_IMGS[tile.type], tile.x*TILE_SIZE, tile.y*TILE_SIZE)
+    if Edit.editing then
+        for _, tile in pairs(self.tiles) do
+            love.graphics.draw(TILE_IMGS[tile.type], tile.x*TILE_SIZE, tile.y*TILE_SIZE)
+        end
     end
 end
 

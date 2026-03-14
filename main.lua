@@ -14,7 +14,8 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
 
-    Font = love.graphics.newFont("assets/fonts/Galmuri9.ttf", 10)
+    Font = love.graphics.newFont("assets/fonts/Galmuri9.ttf", 20)
+    FontBold = love.graphics.newFont("assets/fonts/Galmuri11-Bold.ttf", 48)
     TILE_SIZE = 16
 
     -- NewAudio("jump")
