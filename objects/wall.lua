@@ -40,7 +40,9 @@ function Wall:flip(vy)
 end
 
 function Wall:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, 2, 2)
+    love.graphics.setColor(COLOR.WALL)
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, 2)
+    ResetColor()
 end
 
 return Wall

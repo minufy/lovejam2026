@@ -125,13 +125,13 @@ local draw_order = {
 }
 
 function Game:draw()
-    love.graphics.setColor(rgb(132, 155, 199))
+    love.graphics.setColor(COLOR.BG)
     love.graphics.rectangle("fill", 0, 0, Res.w, Res.h)
     ResetColor()
 
     Shaders:start()
     
-    love.graphics.setColor(1, 1, 1, 0.6)
+    love.graphics.setColor(Alpha(COLOR.TEXT, 0.4))
     local s1 = "score"
     love.graphics.setFont(Font)
     love.graphics.print(s1, Res.w/2-Font:getWidth(s1)/2+Camera.shake_x, Res.h/2-45-(self.score_scale-1)*10+Camera.shake_y)

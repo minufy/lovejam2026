@@ -41,7 +41,7 @@ function Player:update(dt)
         Game:add_score(3)
         found_score[1].remove = true
         for _ = 1, 4 do
-            Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), rgb(251, 207, 54))
+            Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), COLOR.SCORE)
         end
     end
 
@@ -103,9 +103,9 @@ end
 function Player:die()
     self.remove = true
     Game.dead = true
-    Camera:shake(3)
+    Camera:shake(4)
     for _ = 1, 4 do
-        Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), rgb(220, 46, 46))
+        Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), COLOR.SPIKE)
     end
 end
 

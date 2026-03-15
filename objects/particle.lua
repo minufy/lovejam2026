@@ -10,7 +10,7 @@ function Particle:init(x, y, mx, my, size, color)
     self.my = my*0.1
     
     self.size = size
-    self.color = color or {1, 1, 1}
+    self.color = color or COLOR.PLAYER
 end
 
 function Particle:draw()

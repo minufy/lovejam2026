@@ -19,6 +19,14 @@ function love.load()
     FontBold = love.graphics.newFont("assets/fonts/Galmuri11-Bold.ttf", 48)
     TILE_SIZE = 16
 
+    COLOR = {}
+    COLOR.TEXT = rgb(244, 229, 225)
+    COLOR.BG = rgb(52, 42, 43)
+    COLOR.WALL = rgb(202, 156, 141)
+    COLOR.SCORE = rgb(75, 141, 173)
+    COLOR.SPIKE = rgb(248, 108, 76)
+    COLOR.PLAYER = rgb(244, 229, 225)
+
     -- NewAudio("jump")
 
     Res:init()
