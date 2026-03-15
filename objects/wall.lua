@@ -23,11 +23,11 @@ function Wall:update(dt)
         table.insert(found_y, player)
     end
     Physics.solve_y(self, self.vy, found_y[1])
-    if #found_y > 0 then
-        if found_y[1].group_name == "player" then
-            self:flip(found_y[1].vy)
-        end
-    end
+    -- if #found_y > 0 then
+    --     if found_y[1].group_name == "player" then
+    --         self:flip(found_y[1].vy)
+    --     end
+    -- end
     if self.y > Res.h or self.y+self.h < 0 then
         self.remove = true
     end

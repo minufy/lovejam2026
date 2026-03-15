@@ -131,7 +131,7 @@ function Game:draw()
 
     Shaders:start()
     
-    love.graphics.setColor(1, 1, 1, 0.7)
+    love.graphics.setColor(1, 1, 1, 0.6)
     local s1 = "score"
     love.graphics.setFont(Font)
     love.graphics.print(s1, Res.w/2-Font:getWidth(s1)/2+Camera.shake_x, Res.h/2-45-(self.score_scale-1)*10+Camera.shake_y)
