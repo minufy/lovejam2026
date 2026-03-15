@@ -4,6 +4,7 @@ local img = NewImage("player")
 
 local gravity = 0.2
 local spike_radius = TILE_SIZE*0.7
+local score_radius = TILE_SIZE*1.1
 
 function Player:init(x, y)
     self.group_name = "player"
@@ -33,6 +34,15 @@ function Player:update(dt)
     local found_spike = Physics.dist(self, {"spike"}, spike_radius)
     if #found_spike > 0 then
         self:die()
+    end
+
+    local found_score = Physics.dist(self, {"score"}, score_radius)
+    if #found_score > 0 then
+        Game:add_score(3)
+        found_score[1].remove = true
+        for _ = 1, 4 do
+            Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), rgb(251, 207, 54))
+        end
     end
 
     local found_x = Physics.move_and_col(self, self.direction*self.speed*2*dt, 0)
@@ -95,7 +105,7 @@ function Player:die()
     Game.dead = true
     Camera:shake(3)
     for _ = 1, 4 do
-        Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(3, 10))
+        Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), rgb(220, 46, 46))
     end
 end
 

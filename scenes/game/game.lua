@@ -5,6 +5,7 @@ Level = require("scenes.game.level")
 
 local Wall = require("objects.wall")
 local Spike = require("objects.spike")
+local Score = require("objects.score")
 
 local directions = {-1, 1}
 
@@ -30,6 +31,11 @@ function Game:init()
     }
     self.spike_spawner = {
         time = 70,
+        timer = 0,
+        queue = {}
+    }
+    self.score_spawner = {
+        time = 150,
         timer = 0,
         queue = {}
     }
@@ -82,11 +88,24 @@ function Game:update(dt)
         local direction = directions[math.random(1, 2)]
         self:add(Spike, table.remove(self.spike_spawner.queue, math.random(1, #self.spike_spawner.queue))*TILE_SIZE, Res.h*(1-direction)/2, direction)
     end
+
+    self.score_spawner.timer = self.score_spawner.timer+dt
+    if self.score_spawner.timer > self.score_spawner.time then
+        self.score_spawner.timer = 0
+        if #self.score_spawner.queue == 0 then
+            for i = 0, Res.w/TILE_SIZE-1 do
+                table.insert(self.score_spawner.queue, i)
+            end
+        end
+        local direction = directions[math.random(1, 2)]
+        self:add(Score, table.remove(self.score_spawner.queue, math.random(1, #self.score_spawner.queue))*TILE_SIZE, Res.h*(1-direction)/2, direction)
+    end
 end
 
-function Game:add_score()
+function Game:add_score(s)
+    s = s or 1
     self.score_scale = 1.5
-    self.score = self.score+1
+    self.score = self.score+s
     Camera:shake(1.5)
 end
 
@@ -101,6 +120,7 @@ local draw_order = {
     "particle",
     "wall",
     "spike",
+    "score",
     "player",
 }
 
