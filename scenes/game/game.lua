@@ -20,11 +20,16 @@ function Game:add(Object, ...)
     return o
 end
 
+local restart_time = 30
+local fade_out_time = 20
+
 function Game:init()
     self.objects = {}
     Edit:init()
     Level:init()
     self:reset()
+    self.restart_timer = 0
+    self.fade_out_timer = fade_out_time
 end
 
 function Game:update(dt)
@@ -46,9 +51,22 @@ function Game:update(dt)
 
     self.score_scale = self.score_scale+(1-self.score_scale)*0.1*dt
 
-    if self.dead and Input.restart.pressed then
-        Level:reload()
-        self:reset()
+    if self.dead and Input.jump.down then
+        self.restart_timer = self.restart_timer+dt
+        if self.restart_timer > restart_time then
+            Level:reload()
+            self:reset()
+            self.restart_timer = 0
+            self.fade_out_timer = 0
+        end
+    else
+        self.restart_timer = math.max(self.restart_timer-dt, 0)
+    end
+    if self.fade_out_timer < fade_out_time then
+        self.fade_out_timer = math.min(self.fade_out_timer+dt, fade_out_time)
+    end
+    if self.dead then
+        self.restart_text_anim = self.restart_text_anim+(10-self.restart_text_anim)*0.2*dt
     end
 
     self:update_timers(dt)
@@ -107,6 +125,7 @@ function Game:add_score(s)
 end
 
 function Game:reset()
+    self.restart_text_anim = -Font:getHeight()
     self.wall_spawner = {
         time = 40,
         timer = 0,
@@ -149,7 +168,7 @@ function Game:draw()
 
     Shaders:start()
     
-    love.graphics.setColor(Alpha(COLOR.TEXT, 0.4))
+    love.graphics.setColor(Alpha(COLOR.PLAYER, 0.4))
     local s1 = "score"
     love.graphics.setFont(Font)
     love.graphics.print(s1, Res.w/2-Font:getWidth(s1)/2+Camera.shake_x, Res.h/2-45-(self.score_scale-1)*10+Camera.shake_y)
@@ -173,9 +192,21 @@ function Game:draw()
     if Edit.editing then
         Edit:draw()
     end
+
+    if self.dead then
+        love.graphics.setColor(COLOR.PLAYER)
+        love.graphics.setFont(Font)
+        love.graphics.print("hold to restart", 10, self.restart_text_anim)
+        ResetColor()
+    end
     
     Camera:stop()
     
+    love.graphics.setColor(COLOR.PLAYER)
+    love.graphics.rectangle("fill", 0, 0, EaseOut(self.restart_timer/restart_time)*Res.w, Res.h)
+    love.graphics.rectangle("fill", EaseOut(self.fade_out_timer/fade_out_time)*Res.w, 0, Res.w, Res.h)
+    ResetColor()
+
     if Edit.editing then
         Edit:draw_hud()
     end

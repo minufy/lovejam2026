@@ -25,11 +25,11 @@ function Laser:update(dt)
 end
 
 function Laser:draw()
-    love.graphics.setColor(COLOR.SPIKE)
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
-    ResetColor()
-    love.graphics.setLineWidth(self.h/4)
+    love.graphics.setLineWidth(self.h/1.5)
+    love.graphics.setColor(COLOR.SPIKE)
     love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
+    ResetColor()
 end
 
 return Laser

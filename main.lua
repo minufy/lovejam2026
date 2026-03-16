@@ -20,7 +20,6 @@ function love.load()
     TILE_SIZE = 16
 
     COLOR = {}
-    COLOR.TEXT = rgb(244, 229, 225)
     COLOR.BG = rgb(52, 42, 43)
     COLOR.WALL = rgb(202, 156, 141)
     COLOR.SCORE = rgb(75, 141, 173)

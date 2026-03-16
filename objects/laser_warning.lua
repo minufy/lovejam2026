@@ -11,14 +11,14 @@ function LaserWarning:init(y)
     self.w = Res.w
     self.h = 0
     self.y = self.oy-self.h/2
-    self.time = 0
+    self.timer = 0
 end
 
 function LaserWarning:update(dt)
     self.h = self.h+(LASER_H-self.h)*0.05*dt
     self.y = self.oy-self.h/2
-    self.time = self.time+dt
-    if self.time > time then
+    self.timer = self.timer+dt
+    if self.timer > time then
         self.remove = true
         Game:add(Laser, self.oy)
     end
