@@ -15,8 +15,8 @@ function LaserWarning:init(y)
 end
 
 function LaserWarning:update(dt)
-    self.y = self.oy-self.h/2
     self.h = self.h+(LASER_H-self.h)*0.05*dt
+    self.y = self.oy-self.h/2
     self.time = self.time+dt
     if self.time > time then
         self.remove = true

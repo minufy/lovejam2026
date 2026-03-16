@@ -17,8 +17,8 @@ function Laser:init(y)
 end
 
 function Laser:update(dt)
-    self.y = self.oy-self.h/2
     self.h = self.h-self.h*0.15*dt
+    self.y = self.oy-self.h/2
     if self.h/4 < 0.1 then
         self.remove = true
     end
