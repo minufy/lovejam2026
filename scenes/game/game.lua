@@ -6,6 +6,7 @@ Level = require("scenes.game.level")
 local Wall = require("objects.wall")
 local Spike = require("objects.spike")
 local Score = require("objects.score")
+local LaserWarning = require("objects.laser_warning")
 
 local directions = {-1, 1}
 
@@ -38,6 +39,10 @@ function Game:init()
         time = 150,
         timer = 0,
         queue = {}
+    }
+    self.laser_spawner = {
+        time = 400,
+        timer = 0,
     }
 end
 
@@ -100,6 +105,13 @@ function Game:update(dt)
         local direction = directions[math.random(1, 2)]
         self:add(Score, table.remove(self.score_spawner.queue, math.random(1, #self.score_spawner.queue))*TILE_SIZE, Res.h*(1-direction)/2, direction)
     end
+
+    self.laser_spawner.timer = self.laser_spawner.timer+dt
+    if self.laser_spawner.timer > self.laser_spawner.time then
+        self.laser_spawner.timer = 0
+        local y = math.random(0, Res.h)
+        self:add(LaserWarning, y)
+    end
 end
 
 function Game:add_score(s)
@@ -117,6 +129,8 @@ end
 
 local draw_order = {
     "tiles",
+    "laser",
+    "laser_warning",
     "particle",
     "wall",
     "spike",

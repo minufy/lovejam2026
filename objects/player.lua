@@ -36,6 +36,11 @@ function Player:update(dt)
         self:die()
     end
 
+    local found_laser = Physics.col(self, {"laser"})
+    if #found_laser > 0 then
+        self:die()
+    end
+    
     local found_score = Physics.dist(self, {"score"}, score_radius)
     if #found_score > 0 then
         Game:add_score(3)
