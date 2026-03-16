@@ -111,3 +111,8 @@ end
 function EaseOut(x)
     return 1-(1-x)^2
 end
+
+function UpdateTargetFPS()
+    local _, _, flags = love.window.getMode()
+    TargetFPS = (flags.refreshrate > 0) and flags.refreshrate or 60
+end

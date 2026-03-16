@@ -30,13 +30,17 @@ function love.load()
     -- NewAudio("jump")
 
     Res:init()
-    
     SM:load("game.game")
 
     math.randomseed(love.timer.getTime())
+    UpdateTargetFPS()
 end
 
 function love.update(dt)
+    local target_dt = 1/(TargetFPS+10)
+    if dt < target_dt then
+        love.timer.sleep(target_dt-dt)
+    end
     dt = math.min(dt*60, 1.5)
     UpdateInputs()
     Camera:update(dt)
@@ -50,4 +54,9 @@ function love.draw()
     SM:draw()
     Res:after()
     DrawLog()
+    love.graphics.print(tostring(love.timer.getFPS()))
+end
+
+function love.displaychanged()
+    UpdateTargetFPS()
 end
