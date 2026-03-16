@@ -25,25 +25,6 @@ function Game:init()
     Edit:init()
     Level:init()
     self:reset()
-    self.wall_spawner = {
-        time = 40,
-        timer = 0,
-        queue = {}
-    }
-    self.spike_spawner = {
-        time = 70,
-        timer = 0,
-        queue = {}
-    }
-    self.score_spawner = {
-        time = 150,
-        timer = 0,
-        queue = {}
-    }
-    self.laser_spawner = {
-        time = 400,
-        timer = 0,
-    }
 end
 
 function Game:update(dt)
@@ -70,6 +51,10 @@ function Game:update(dt)
         self:reset()
     end
 
+    self:update_timers(dt)
+end
+
+function Game:update_timers(dt)
     self.wall_spawner.timer = self.wall_spawner.timer+dt 
     if self.wall_spawner.timer > self.wall_spawner.time then
         self.wall_spawner.timer = 0
@@ -122,6 +107,25 @@ function Game:add_score(s)
 end
 
 function Game:reset()
+    self.wall_spawner = {
+        time = 40,
+        timer = 0,
+        queue = {}
+    }
+    self.spike_spawner = {
+        time = 70,
+        timer = 0,
+        queue = {}
+    }
+    self.score_spawner = {
+        time = 150,
+        timer = 0,
+        queue = {}
+    }
+    self.laser_spawner = {
+        time = 400,
+        timer = 0,
+    }
     self.score = 0
     self.score_scale = 1
     Game.dead = false

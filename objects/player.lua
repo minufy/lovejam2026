@@ -30,7 +30,7 @@ function Player:init(x, y)
     end
 end
 
-function Player:update(dt)
+function Player:collision(dt)
     local found_spike = Physics.dist(self, {"spike"}, spike_radius)
     if #found_spike > 0 then
         self:die()
@@ -85,6 +85,14 @@ function Player:update(dt)
         self.anim_scale = -0.4
     end
 
+    if self.y < 0 or self.y+self.h > Res.h then
+        self:die()
+    end
+end
+
+function Player:update(dt)
+    self:collision(dt)
+
     if Input.jump.pressed then
         self.anim_scale = 0.4
         self.vy = -self.jump_force
@@ -98,10 +106,6 @@ function Player:update(dt)
         self.gravity = gravity
     end
     
-    if self.y < 0 or self.y+self.h > Res.h then
-        self:die()
-    end
-
     self.anim_scale = self.anim_scale-self.anim_scale*0.1*dt
 end
 
