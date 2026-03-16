@@ -5,7 +5,7 @@ local Laser = require("objects.laser")
 local time = 90
 function LaserWarning:init(y)
     self.group_name = "laser_warning"
-    
+
     self.x = 0
     self.oy = y
     self.w = Res.w
