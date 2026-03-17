@@ -159,6 +159,7 @@ local draw_order = {
     "spike",
     "score",
     "player",
+    "dead_pos",
 }
 
 function Game:draw()

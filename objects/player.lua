@@ -6,6 +6,8 @@ local gravity = 0.2
 local spike_radius = TILE_SIZE*0.7
 local score_radius = TILE_SIZE*1.1
 
+local DeadPos = require("objects.dead_pos")
+
 function Player:init(x, y)
     self.group_name = "player"
     
@@ -116,6 +118,7 @@ function Player:die()
     for _ = 1, 4 do
         Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), COLOR.SPIKE)
     end
+    Game:add(DeadPos, self.x+self.w/2, self.y+self.h/2)
 end
 
 function Player:draw()
