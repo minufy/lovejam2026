@@ -53,7 +53,9 @@ function love.draw()
     SM:draw()
     Res:after()
     DrawLog()
-    love.graphics.print(tostring(love.timer.getFPS()))
+    if CONSOLE then
+        love.graphics.print(tostring(love.timer.getFPS()))
+    end
 end
 
 function love.displaychanged()
