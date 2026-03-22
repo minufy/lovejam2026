@@ -14,6 +14,7 @@ function Laser:init(y)
         Game:add(Particle, x*TILE_SIZE, y, math.random(-30, 30), math.random(-30, 30), math.random(10, 20))
     end
     Camera:shake(2)
+    Audio.laser:play()
 end
 
 function Laser:update(dt)

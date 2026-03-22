@@ -26,7 +26,17 @@ function love.load()
     COLOR.SPIKE = rgb(248, 108, 76)
     COLOR.PLAYER = rgb(244, 229, 225)
 
-    -- NewAudio("jump")
+    Music = love.audio.newSource("assets/audio/music.ogg", "stream")
+    Music:setVolume(0.3)
+    Music:setLooping(true)
+
+    NewAudio("die", 1)
+    NewAudio("jump", 0.8)
+    NewAudio("fade", 0.7)
+    NewAudio("laser", 0.5)
+    NewAudio("score", 0.3)
+    NewAudio("score_3", 0.3)
+    NewAudio("restart", 0.5)
 
     Res:init()
     SM:load("game.game")

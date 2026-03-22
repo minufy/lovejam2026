@@ -101,6 +101,7 @@ function Player:update(dt)
         for _ = 1, 4 do
             Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(0, 20), math.random(3, 7))
         end
+        Audio.jump:play()
     end
     if Input.jump.down then
         self.gravity = gravity/2
@@ -119,6 +120,8 @@ function Player:die()
         Game:add(Particle, self.x+self.w/2, self.y+self.h/2, math.random(-20, 20), math.random(-20, 20), math.random(10, 15), COLOR.SPIKE)
     end
     Game:add(DeadPos, self.x+self.w/2, self.y+self.h/2)
+    Music:pause()
+    Audio.die:play()
 end
 
 function Player:draw()

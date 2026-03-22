@@ -22,6 +22,7 @@ end
 
 local restart_time = 30
 local fade_out_time = 20
+local restart_sound_time = 4
 
 function Game:init()
     self.objects = {}
@@ -30,6 +31,7 @@ function Game:init()
     self:reset()
     self.restart_timer = 0
     self.fade_out_timer = fade_out_time
+    self.restart_sound_timer = restart_sound_time
 end
 
 function Game:update(dt)
@@ -52,17 +54,24 @@ function Game:update(dt)
     self.score_scale = self.score_scale+(1-self.score_scale)*0.1*dt
 
     if self.dead and Input.jump.down then
+        self.restart_sound_timer = self.restart_sound_timer+dt
+        if self.restart_sound_timer >= restart_sound_time then
+            self.restart_sound_timer = 0
+            Audio.restart:play()
+            Audio.restart.source:setPitch(1+self.restart_timer/restart_time*0.6)
+        end
         self.restart_timer = self.restart_timer+dt
-        if self.restart_timer > restart_time then
+        if self.restart_timer >= restart_time then
             Level:reload()
             self:reset()
             self.restart_timer = 0
             self.fade_out_timer = 0
+            Audio.fade:play()
         end
     else
         self.restart_timer = math.max(self.restart_timer-dt, 0)
     end
-    if self.fade_out_timer < fade_out_time then
+    if self.fade_out_timer <= fade_out_time then
         self.fade_out_timer = math.min(self.fade_out_timer+dt, fade_out_time)
     end
     if self.dead then
@@ -74,7 +83,7 @@ end
 
 function Game:update_timers(dt)
     self.wall_spawner.timer = self.wall_spawner.timer+dt 
-    if self.wall_spawner.timer > self.wall_spawner.time then
+    if self.wall_spawner.timer >= self.wall_spawner.time then
         self.wall_spawner.timer = 0
         if #self.wall_spawner.queue == 0 then
             for i = 2, Res.w/TILE_SIZE-3 do
@@ -86,7 +95,7 @@ function Game:update_timers(dt)
     end
 
     self.spike_spawner.timer = self.spike_spawner.timer+dt
-    if self.spike_spawner.timer > self.spike_spawner.time then
+    if self.spike_spawner.timer >= self.spike_spawner.time then
         self.spike_spawner.timer = 0
         if #self.spike_spawner.queue == 0 then
             for i = 0, Res.w/TILE_SIZE-1 do
@@ -98,7 +107,7 @@ function Game:update_timers(dt)
     end
 
     self.score_spawner.timer = self.score_spawner.timer+dt
-    if self.score_spawner.timer > self.score_spawner.time then
+    if self.score_spawner.timer >= self.score_spawner.time then
         self.score_spawner.timer = 0
         if #self.score_spawner.queue == 0 then
             for i = 0, Res.w/TILE_SIZE-1 do
@@ -110,7 +119,7 @@ function Game:update_timers(dt)
     end
 
     self.laser_spawner.timer = self.laser_spawner.timer+dt
-    if self.laser_spawner.timer > self.laser_spawner.time then
+    if self.laser_spawner.timer >= self.laser_spawner.time then
         self.laser_spawner.timer = 0
         local y = math.random(0, Res.h)
         self:add(LaserWarning, y)
@@ -122,9 +131,16 @@ function Game:add_score(s)
     self.score_scale = 1.5
     self.score = self.score+s
     Camera:shake(1.5)
+    if s == 3 then
+        Audio.score_3:play()
+    else
+        Audio.score:play()
+    end
 end
 
 function Game:reset()
+    Music:play()
+    
     self.restart_text_anim = -Font:getHeight()
     self.wall_spawner = {
         time = 40,
