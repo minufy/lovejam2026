@@ -1,6 +1,6 @@
 WINDOW_W = 800
 WINDOW_H = 600
-CONSOLE = true
+CONSOLE = false
 
 function love.conf(t)
     t.window.resizable = true
